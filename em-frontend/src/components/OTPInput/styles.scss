@@ -1,0 +1,24 @@
+/* OTPInput.scss */
+$otp-input-gap: 10px;
+$otp-input-border-color: #ced4da;
+$otp-input-border-focus-color: #007bff;
+
+.otp-input {
+  display: flex;
+  justify-content:center;
+  gap: $otp-input-gap;
+
+  input {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    border: 2px solid $otp-input-border-color;
+    border-radius: 8px;
+    outline: none;
+
+    &:focus {
+      border-color: $otp-input-border-focus-color;
+    }
+  }
+}

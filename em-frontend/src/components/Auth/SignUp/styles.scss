@@ -1,0 +1,15 @@
+.sign-up {
+    .container {
+        height: min-content;
+        margin: 20px;
+    }
+
+    img {
+        width: 100%;
+        max-height: 100%; // Set the maximum height to 100% to fit the image within the container
+        border-radius: 20px; // Make the image circular by setting a 50% border radius
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); // Add a 3D effect with a box shadow
+      }
+    
+}
+
