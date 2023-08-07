@@ -8,10 +8,13 @@ import {
 export const logIn = (formData) => async (dispatch) => {
   dispatch({ type: "AUTH_START" });
   try {
-    const { data } = await AuthApi.logIn(formData);
+    const response = await AuthApi.logIn(formData);
+    debugger;
+    // const { data } = await AuthApi.logIn(formData);
     // const { startTokenVerification } = verifyToken();
     // startTokenVerification();
-    dispatch({ type: "AUTH_SUCCESS", data: data });
+    // dispatch({ type: "AUTH_SUCCESS", data: data });
+    dispatch({ type: "AUTH_SUCCESS", data: response.data });
   } catch (error) {
     console.log(error);
     dispatch({ type: "AUTH_FAIL" });

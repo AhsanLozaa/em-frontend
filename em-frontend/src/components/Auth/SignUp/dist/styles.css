@@ -1,0 +1,32 @@
+/* Apply styles to the entire sign-up section */
+.sign-up {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url("../../../assets/signup_bg.jpg");
+  /* Replace with your image path */
+  background-size: cover;
+}
+
+/* Style the container that holds the content */
+.sign-up .container {
+  max-width: 1000px;
+  height: 100%;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the image */
+.sign-up img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.minimal-label {
+  color: grey;
+  /* Set your desired text color */
+}

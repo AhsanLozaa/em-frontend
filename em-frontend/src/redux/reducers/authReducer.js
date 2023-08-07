@@ -15,13 +15,16 @@ const authReducer = (
 
     case AUTH_SUCCESS:
       // To clear the whole local storage on log out
-      if (action?.data === null) {
-        localStorage.clear();
-      }
       try {
+        if (action?.data === null) {
+          localStorage.clear();
+        }
         localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
-        localStorage.setItem("token", action?.data.token);
-      } catch (error) {}
+        localStorage.setItem("token", action?.data.accessToken);
+      } catch (error) {
+        console.log(error);
+        debugger;
+      }
       return { ...state, authData: action.data, loading: false, error: false };
 
     case AUTH_FAIL:

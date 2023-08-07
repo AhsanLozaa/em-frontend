@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes, Link, useNavigate } from "react-router-dom";
 import Home from "./components/Home";
 import About from "./components/About";
@@ -6,25 +6,40 @@ import Contact from "./components/Contact";
 import NotFound from "./components/NotFound";
 import SignUp from "./components/Auth/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-const isAuthenticated = () => {
-  // Implement your authentication logic here and return true if authenticated, false otherwise.
-  // For example, you can check if the user has a valid token or session.
-  // This is just a placeholder function.
-  return false; // Change this to your actual authentication logic.
-};
-
-const getUserRole = () => {
-  // Implement your logic to get the user's role (seller or buyer).
-  // For example, you can fetch the role from the backend after successful authentication.
-  // This is just a placeholder function.
-  return "seller"; // Change this to your actual role retrieval logic.
-};
+import { useSelector } from "react-redux";
+import { verifyAccessToken } from "./api/AuthRequests";
+import AppNavBar from "./Widgets/AppNavBar";
+import SellerNavBar from "./Widgets/SellerNavBar/SellerNavBar";
 
 const App = () => {
-  const authenticated = isAuthenticated();
-  const userRole = authenticated ? getUserRole() : null;
+  const user = useSelector((state) => state.authReducer.authData);
+
+  // const authenticated = isAuthenticated();
+  const [authenticated, setAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user) {
+        const { accessToken, role } = user;
+        if (accessToken) {
+          setUserRole(role);
+          try {
+            const { data } = await verifyAccessToken();
+            if (data.success) {
+              setAuthenticated(true);
+              navigate("/home");
+            }
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        }
+      }
+    };
+
+    fetchData();
+  }, [user]);
 
   useEffect(() => {
     if (!authenticated) {
@@ -40,12 +55,18 @@ const App = () => {
     <div>
       {authenticated && (
         <>
-          <h1>My App</h1>
+          <div>
+            {userRole === "buyer" && <AppNavBar userRole={userRole} />}
+            {userRole === "seller" && <SellerNavBar role={userRole} />}
+            {/* <AppNavBar role={userRole} /> */}
+          </div>
+          {/* <AppNavBar /> */}
+          {/* <h1>My App</h1>
           <nav>
             <Link to="/">Home</Link>
             <Link to="/about">About</Link>
             <Link to="/contact">Contact</Link>
-          </nav>
+          </nav> */}
         </>
       )}
       <Routes>

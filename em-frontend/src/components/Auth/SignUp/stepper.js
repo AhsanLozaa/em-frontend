@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,7 +19,11 @@ import {
   FaCodeBranch,
   FaFlag,
 } from "react-icons/fa";
-// import { logIn, signUp } from "../../../api/AuthRequests";
+import {
+  // logIn,
+  signUp,
+} from "../../../api/AuthRequests";
+import { logIn } from "../../../redux/actions/AuthActions";
 
 const SignUpForm = ({
   step,
@@ -309,6 +314,7 @@ const LoginForm = ({ loginFormData, handleChange }) => {
 };
 
 const Stepper = () => {
+  const dispatch = useDispatch();
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -584,6 +590,7 @@ const Stepper = () => {
                     setIsLoading(true);
                     try {
                       // const response = await logIn(loginFormData);
+                      dispatch(logIn(loginFormData));
                       toast.success("Login successful", {
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 1000,
