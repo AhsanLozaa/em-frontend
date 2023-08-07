@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,7 +18,7 @@ import {
   FaCodeBranch,
   FaFlag,
 } from "react-icons/fa";
-import { signUp } from "../../../api/AuthRequests";
+// import { logIn, signUp } from "../../../api/AuthRequests";
 
 const SignUpForm = ({
   step,
@@ -268,6 +268,46 @@ const SignUpForm = ({
   );
 };
 
+const LoginForm = ({ loginFormData, handleChange }) => {
+  return (
+    <>
+      <Form.Group className="mb-3" controlId="loginForm">
+        <Form.Group className="mb-3" controlId="loginFormEmail">
+          <Form.Label className="minimal-label">Email address</Form.Label>
+          <div className="input-group">
+            <span className="input-group-text">
+              <FaEnvelope />
+            </span>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              name="email"
+              value={loginFormData.email}
+              onChange={handleChange}
+            />
+          </div>
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="loginFormPassword">
+          <Form.Label className="minimal-label">Password</Form.Label>
+          <div className="input-group">
+            <span className="input-group-text">
+              <FaLock />
+            </span>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={loginFormData.password}
+              onChange={handleChange}
+            />
+          </div>
+        </Form.Group>
+      </Form.Group>
+    </>
+  );
+};
+
 const Stepper = () => {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -293,6 +333,11 @@ const Stepper = () => {
     role: "",
   });
 
+  const [loginFormData, setLoginFormData] = useState({
+    email: "",
+    password: "",
+  });
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -309,6 +354,15 @@ const Stepper = () => {
     }
 
     setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleChangeLoginData = (event) => {
+    const { name, value } = event.target;
+
+    setLoginFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -516,12 +570,9 @@ const Stepper = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <SignUpForm
-                    step={step}
-                    formData={formData}
-                    handleChange={handleChange}
-                    handleViewChange={handleViewChange}
-                    selectedView={selectedView}
+                  <LoginForm
+                    loginFormData={loginFormData}
+                    handleChange={handleChangeLoginData}
                   />
                 </Row>
 
@@ -532,14 +583,14 @@ const Stepper = () => {
                   onClick={async () => {
                     setIsLoading(true);
                     try {
-                      const response = await signUp(formData);
-                      toast.success("Signup successfull", {
+                      // const response = await logIn(loginFormData);
+                      toast.success("Login successful", {
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 1000,
                       });
                       debugger;
                     } catch (error) {
-                      toast.error("Failed to signup", {
+                      toast.error("Failed to login", {
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 3000,
                       });
@@ -548,7 +599,13 @@ const Stepper = () => {
                     }
                   }}
                 >
-                  LogIn
+                  {isLoading ? (
+                    <Spinner animation="border" role="status" size="sm">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  ) : (
+                    "Log In"
+                  )}
                 </Button>
               </Col>
             </Row>

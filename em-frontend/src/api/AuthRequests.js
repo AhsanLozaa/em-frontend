@@ -6,7 +6,7 @@ import API_ENDPOINT from "./httpEndpoint";
  * @param {Object} formData - The user login form data.
  * @returns {Promise} - A promise that resolves to the login response.
  */
-export const logIn = (formData) => API_ENDPOINT.post("/auth/login", formData);
+export const logIn = (formData) => API_ENDPOINT.post("/auth/signin", formData);
 
 /**
  * Signs up the user with the provided form data.
