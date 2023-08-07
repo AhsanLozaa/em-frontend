@@ -1,15 +1,35 @@
+/* Apply styles to the entire sign-up section */
 .sign-up {
-    .container {
-        height: min-content;
-        margin: 20px;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    // background-color: #f2f2f2;
+    // background-color: grey;
+    background-image: url('../../../assets/signup_bg.jpg'); /* Replace with your image path */
+    background-size: cover; 
+  }
+  
+  /* Style the container that holds the content */
+  .sign-up .container {
+    max-width: 1000px;
+    height: 100%;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style the image */
+  .sign-up img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+  
 
-    img {
-        width: 100%;
-        max-height: 100%; // Set the maximum height to 100% to fit the image within the container
-        border-radius: 20px; // Make the image circular by setting a 50% border radius
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); // Add a 3D effect with a box shadow
-      }
-    
-}
 
+  .minimal-label {
+    color: grey; /* Set your desired text color */
+  }
+  

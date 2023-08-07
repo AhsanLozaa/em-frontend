@@ -11,7 +11,7 @@ const isAuthenticated = () => {
   // Implement your authentication logic here and return true if authenticated, false otherwise.
   // For example, you can check if the user has a valid token or session.
   // This is just a placeholder function.
-  return false; // Change this to your actual authentication logic.
+  // return true; // Change this to your actual authentication logic.
 };
 
 const getUserRole = () => {

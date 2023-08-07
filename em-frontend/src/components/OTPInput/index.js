@@ -61,3 +61,9 @@ const OTPInput = ({ length = 6, onChange }) => {
 };
 
 export default OTPInput;
+
+// usecase
+// const handleOTPChange = (otp) => {
+//   console.log("OTP:", otp);
+// };
+// <OTPInput onChange={handleOTPChange} />
