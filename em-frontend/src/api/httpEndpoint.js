@@ -1,6 +1,6 @@
 import axios from "axios";
-import { logOut } from "../actions/AuthActions";
-import store from "../store/ReduxStore";
+import { logOut } from "../redux/actions/AuthActions";
+import store from "../redux/store/store";
 
 // Create an instance of Axios with a base URL
 const API_ENDPOINT = axios.create({

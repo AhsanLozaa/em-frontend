@@ -3,7 +3,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 // import AppRouter from "./AppRouter";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Provider } from "react-redux";
 import App from "./App";
+import store from "./redux/store/store";
 
 // ReactDOM.render(
 //   // <Provider store={store}>
@@ -19,8 +21,10 @@ import App from "./App";
 //   document.getElementById("root")
 // );
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById("root")
 );

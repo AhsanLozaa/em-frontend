@@ -12,9 +12,15 @@ import {
   FaUser,
   FaLock,
   FaPhoneAlt,
+  FaStreetView,
+  FaCity,
+  FaFlagCheckered,
+  FaCodeBranch,
+  FaFlag,
 } from "react-icons/fa";
+import { signUp } from "../../../api/AuthRequests";
 
-const FormStep = ({
+const SignUpForm = ({
   step,
   formData,
   handleChange,
@@ -179,57 +185,82 @@ const FormStep = ({
         <Form>
           <Form.Group className="mb-3" controlId="street">
             <Form.Label className="minimal-label">Street</Form.Label>
-            <Form.Control
-              type="text"
-              name="street"
-              value={formData.street}
-              onChange={handleChange}
-              required
-            />
+            <div className="input-group">
+              <span className="input-group-text">
+                <FaStreetView />
+              </span>
+              <Form.Control
+                type="text"
+                name="street"
+                value={formData.street}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="city">
             <Form.Label className="minimal-label">City</Form.Label>
-            <Form.Control
-              type="text"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              required
-            />
+            <div className="input-group">
+              <span className="input-group-text">
+                <FaCity />
+              </span>
+              <Form.Control
+                type="text"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="state">
             <Form.Label className="minimal-label">State</Form.Label>
-            <Form.Control
-              type="text"
-              name="state"
-              value={formData.state}
-              onChange={handleChange}
-              required
-            />
+            <div className="input-group">
+              <span className="input-group-text">
+                <FaFlagCheckered />
+              </span>
+              <Form.Control
+                type="text"
+                name="state"
+                value={formData.state}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="zipCode">
             <Form.Label className="minimal-label">Zip Code</Form.Label>
-            <Form.Control
-              type="text"
-              name="zipCode"
-              value={formData.zipCode}
-              onChange={handleChange}
-              required
-            />
+            <div className="input-group">
+              <span className="input-group-text">
+                <FaCodeBranch />
+              </span>
+              <Form.Control
+                type="text"
+                name="zipCode"
+                value={formData.zipCode}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="country">
             <Form.Label className="minimal-label">Country</Form.Label>
-            <Form.Control
-              type="text"
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-              required
-            />
+            <div className="input-group">
+              <span className="input-group-text">
+                <FaFlag />
+              </span>
+              <Form.Control
+                type="text"
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </Form.Group>
         </Form>
       )}
@@ -239,6 +270,8 @@ const FormStep = ({
 
 const Stepper = () => {
   const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     email: "",
     name: "",
@@ -256,6 +289,8 @@ const Stepper = () => {
     state: "",
     zipCode: "",
     country: "",
+    //
+    role: "",
   });
 
   const handleChange = (event) => {
@@ -295,104 +330,230 @@ const Stepper = () => {
   const [selectedView, setSelectedView] = useState("seller");
 
   const handleViewChange = (view) => {
-    debugger;
     setSelectedView(view);
+    setFormData((prevData) => ({
+      ...prevData,
+      role: view,
+    }));
   };
 
+  const [isSignupView, setIsSignupView] = useState(true);
   //
 
   return (
     <div>
       <Container>
-        <Row className="justify-content-center">
-          <Col md={12}>
-            <Row className="justify-content-center my-4">
-              <Col md={12} className="text-center">
-                {step === 1 && (
-                  <h4
-                    style={{
-                      color: "grey", //
+        {isSignupView && (
+          <>
+            <Row className="justify-content-center">
+              <Col md={12}>
+                <Row className="justify-content-center my-4">
+                  <Col md={12} className="text-center">
+                    {step === 1 && (
+                      <div>
+                        <h4 style={{ color: "grey" }}>
+                          Welcome! Create your account
+                          <span
+                            style={{
+                              display: "block",
+                              marginTop: "3px",
+                              fontSize: "14px",
+                              cursor: "pointer",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            <i
+                              className="fas fa-sign-in-alt"
+                              style={{ marginRight: "5px" }}
+                            ></i>
+                            <span
+                              style={{
+                                color: "#63B3ED",
+                                textDecoration: "inherit",
+                              }}
+                              onClick={() => {
+                                setIsSignupView(false);
+                              }}
+                            >
+                              Already have an account? Login here.
+                            </span>
+                          </span>
+                        </h4>
+                        {/* Rest of your registration form */}
+                      </div>
+                    )}
+                    {step === 2 && (
+                      <div>
+                        <h4
+                          style={{
+                            color:
+                              selectedView === "seller" ? "#FF6B6B" : "#63B3ED",
+                            fontSize: "1.5rem",
+                            fontWeight: "bold",
+                            marginBottom: "0.5rem",
+                          }}
+                        >
+                          {selectedView === "seller"
+                            ? "Become a Seller"
+                            : "Become a Buyer"}
+                        </h4>
+                        <p
+                          style={{
+                            color: "#777",
+                            fontSize: "1rem",
+                            lineHeight: "1.4",
+                          }}
+                        >
+                          {selectedView === "seller"
+                            ? "Start selling your products and reach a wider audience."
+                            : "Discover a wide range of products and shop with us !"}
+                        </p>
+                      </div>
+                    )}
+
+                    {step === 3 && (
+                      <h4 style={{ color: "#63B3ED" }}>Provide Your Address</h4>
+                    )}
+                  </Col>
+                </Row>
+                <Row>
+                  <SignUpForm
+                    step={step}
+                    formData={formData}
+                    handleChange={handleChange}
+                    handleViewChange={handleViewChange}
+                    selectedView={selectedView}
+                  />
+                </Row>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={handlePrevious}
+                  disabled={step === 1}
+                >
+                  Previous
+                </Button>{" "}
+                {step !== 3 && (
+                  <Button
+                    size="sm"
+                    variant="primary"
+                    onClick={handleNext}
+                    disabled={step === 3}
+                  >
+                    Next
+                  </Button>
+                )}
+                {step === 3 && (
+                  <Button
+                    disabled={isLoading}
+                    size="sm"
+                    variant="primary"
+                    onClick={async () => {
+                      setIsLoading(true);
+                      try {
+                        const response = await signUp(formData);
+                        toast.success("Signup successfull", {
+                          position: toast.POSITION.TOP_CENTER,
+                          autoClose: 1000,
+                        });
+                        debugger;
+                      } catch (error) {
+                        toast.error("Failed to signup", {
+                          position: toast.POSITION.TOP_CENTER,
+                          autoClose: 3000,
+                        });
+                      } finally {
+                        setIsLoading(false);
+                      }
                     }}
                   >
-                    Welcome! Create your account
-                  </h4>
-                )}
-                {step === 2 && (
-                  <div>
-                    <h4
-                      style={{
-                        color:
-                          selectedView === "seller" ? "#FF6B6B" : "#63B3ED",
-                        fontSize: "1.5rem",
-                        fontWeight: "bold",
-                        marginBottom: "0.5rem",
-                      }}
-                    >
-                      {selectedView === "seller"
-                        ? "Become a Seller"
-                        : "Become a Buyer"}
-                    </h4>
-                    <p
-                      style={{
-                        color: "#777",
-                        fontSize: "1rem",
-                        lineHeight: "1.4",
-                      }}
-                    >
-                      {selectedView === "seller"
-                        ? "Start selling your products and reach a wider audience."
-                        : "Discover a wide range of products and shop with us !"}
-                    </p>
-                  </div>
-                )}
-
-                {step === 3 && (
-                  <h4 style={{ color: "#63B3ED" }}>Provide Your Address</h4>
+                    SignUp
+                  </Button>
                 )}
               </Col>
             </Row>
-            <Row>
-              <FormStep
-                step={step}
-                formData={formData}
-                handleChange={handleChange}
-                handleViewChange={handleViewChange}
-                selectedView={selectedView}
-              />
+          </>
+        )}
+        {!isSignupView && (
+          <>
+            <Row className="justify-content-center">
+              <Col md={12}>
+                <Row className="justify-content-center my-4">
+                  <Col md={12} className="text-center">
+                    {step === 1 && (
+                      <div>
+                        <h4 style={{ color: "grey" }}>
+                          Login Here
+                          <span
+                            style={{
+                              display: "block",
+                              marginTop: "3px",
+                              fontSize: "14px",
+                              cursor: "pointer",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            <i
+                              className="fas fa-sign-in-alt"
+                              style={{ marginRight: "5px" }}
+                            ></i>
+                            <span
+                              style={{
+                                color: "#FF6B6B",
+                                textDecoration: "inherit",
+                              }}
+                              onClick={() => {
+                                setIsSignupView(true);
+                              }}
+                            >
+                              Do not have an account? Signup here.
+                            </span>
+                          </span>
+                        </h4>
+                        {/* Rest of your registration form */}
+                      </div>
+                    )}
+                  </Col>
+                </Row>
+                <Row>
+                  <SignUpForm
+                    step={step}
+                    formData={formData}
+                    handleChange={handleChange}
+                    handleViewChange={handleViewChange}
+                    selectedView={selectedView}
+                  />
+                </Row>
+
+                <Button
+                  disabled={isLoading}
+                  size="sm"
+                  variant="primary"
+                  onClick={async () => {
+                    setIsLoading(true);
+                    try {
+                      const response = await signUp(formData);
+                      toast.success("Signup successfull", {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 1000,
+                      });
+                      debugger;
+                    } catch (error) {
+                      toast.error("Failed to signup", {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 3000,
+                      });
+                    } finally {
+                      setIsLoading(false);
+                    }
+                  }}
+                >
+                  LogIn
+                </Button>
+              </Col>
             </Row>
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={handlePrevious}
-              disabled={step === 1}
-            >
-              Previous
-            </Button>{" "}
-            {step !== 3 && (
-              <Button
-                size="sm"
-                variant="primary"
-                onClick={handleNext}
-                disabled={step === 3}
-              >
-                Next
-              </Button>
-            )}
-            {step === 3 && (
-              <Button
-                size="sm"
-                variant="primary"
-                // onClick={handleNext}
-                onClick={() => {
-                  toast("Wow so easy!");
-                }}
-              >
-                SignUp
-              </Button>
-            )}
-            {/* </Form> */}
-          </Col>
-        </Row>
+          </>
+        )}
         <ToastContainer />
       </Container>
     </div>

@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Routes, Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Routes, Link, useNavigate } from "react-router-dom";
 import Home from "./components/Home";
 import About from "./components/About";
 import Contact from "./components/Contact";
@@ -11,7 +11,7 @@ const isAuthenticated = () => {
   // Implement your authentication logic here and return true if authenticated, false otherwise.
   // For example, you can check if the user has a valid token or session.
   // This is just a placeholder function.
-  // return true; // Change this to your actual authentication logic.
+  return false; // Change this to your actual authentication logic.
 };
 
 const getUserRole = () => {
@@ -24,23 +24,33 @@ const getUserRole = () => {
 const App = () => {
   const authenticated = isAuthenticated();
   const userRole = authenticated ? getUserRole() : null;
+  const navigate = useNavigate();
 
-  if (!authenticated) {
-    return <SignUp />;
-  }
+  useEffect(() => {
+    if (!authenticated) {
+      navigate("/auth"); // Navigate to the "/auth" route
+    }
+
+    if (authenticated) {
+      navigate("/");
+    }
+  }, [authenticated, navigate]);
 
   return (
     <div>
-      <h1>My App</h1>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/contact">Contact</Link>
-        {!authenticated && <Link to="/signup">Signup</Link>}
-      </nav>
+      {authenticated && (
+        <>
+          <h1>My App</h1>
+          <nav>
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+            <Link to="/contact">Contact</Link>
+          </nav>
+        </>
+      )}
       <Routes>
-        {/* Route for the SignUp page */}
-        {!authenticated && <Route path="/signup" element={<SignUp />} />}
+        {/* Route for the auth page */}
+        {!authenticated && <Route path="/auth" element={<SignUp />} />}
 
         {/* Route for authenticated users */}
         {authenticated && (
