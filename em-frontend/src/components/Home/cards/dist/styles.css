@@ -1,0 +1,7 @@
+.consistent-image {
+  width: 100%;
+  /* Set the width to 100% */
+  object-fit: cover;
+  /* Maintain aspect ratio and cover the entire container */
+  height: 100px;
+}

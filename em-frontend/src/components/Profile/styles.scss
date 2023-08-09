@@ -1,0 +1,38 @@
+// styles.scss
+
+.custom-tabs-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; // Make the container full height
+  background: #f0f0f0;
+  padding-top: 20px;
+}
+
+
+.custom-tabs {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nav-tabs .nav-link {
+  border-radius: 8px 8px 0 0;
+  color: #333;
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+.nav-tabs .nav-link.active {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.tab-content {
+  padding: 20px;
+  border-radius: 0 0 8px 8px;
+  border: 1px solid #ddd;
+  border-top: none;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

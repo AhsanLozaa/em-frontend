@@ -1,0 +1,8 @@
+.consistent-image {
+    width: 100%; /* Set the width to 100% */
+    // height: auto; /* Automatically adjust the height while maintaining aspect ratio */
+    object-fit: cover; /* Maintain aspect ratio and cover the entire container */
+    // max-height: 200px; /* Set the maximum height for consistency */
+    height: 100px;
+  }
+  

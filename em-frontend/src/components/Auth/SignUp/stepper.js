@@ -328,6 +328,7 @@ const Stepper = () => {
     description: "",
     businessName: "",
     // seller
+    sellerRating: 0,
     // seller data comes here
     // address
     street: "",
@@ -336,7 +337,7 @@ const Stepper = () => {
     zipCode: "",
     country: "",
     //
-    role: "",
+    role: "seller",
   });
 
   const [loginFormData, setLoginFormData] = useState({
@@ -511,12 +512,13 @@ const Stepper = () => {
                     onClick={async () => {
                       setIsLoading(true);
                       try {
+                        console.log(formData);
+                        debugger;
                         const response = await signUp(formData);
                         toast.success("Signup successfull", {
                           position: toast.POSITION.TOP_CENTER,
                           autoClose: 1000,
                         });
-                        debugger;
                       } catch (error) {
                         toast.error("Failed to signup", {
                           position: toast.POSITION.TOP_CENTER,
@@ -570,7 +572,6 @@ const Stepper = () => {
                             </span>
                           </span>
                         </h4>
-                        {/* Rest of your registration form */}
                       </div>
                     )}
                   </Col>
@@ -589,13 +590,11 @@ const Stepper = () => {
                   onClick={async () => {
                     setIsLoading(true);
                     try {
-                      // const response = await logIn(loginFormData);
                       dispatch(logIn(loginFormData));
                       toast.success("Login successful", {
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 1000,
                       });
-                      debugger;
                     } catch (error) {
                       toast.error("Failed to login", {
                         position: toast.POSITION.TOP_CENTER,

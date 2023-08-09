@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Link, useNavigate } from "react-router-dom";
-import Home from "./components/Home";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import About from "./components/About";
+import Home from "./components/Home";
 import Contact from "./components/Contact";
 import NotFound from "./components/NotFound";
 import SignUp from "./components/Auth/SignUp";
@@ -10,6 +10,9 @@ import { useSelector } from "react-redux";
 import { verifyAccessToken } from "./api/AuthRequests";
 import AppNavBar from "./Widgets/AppNavBar";
 import SellerNavBar from "./Widgets/SellerNavBar/SellerNavBar";
+import Profile from "./components/Profile/profile";
+import Stores from "./components/Stores/stores";
+import Products from "./components/Products/products";
 
 const App = () => {
   const user = useSelector((state) => state.authReducer.authData);
@@ -29,44 +32,49 @@ const App = () => {
             const { data } = await verifyAccessToken();
             if (data.success) {
               setAuthenticated(true);
-              navigate("/home");
+              if (window.location.pathname === "/auth") {
+                navigate("/");
+              }
+            } else {
+              console.log("Failed to authenticates the access token");
+              navigate("/auth");
             }
           } catch (error) {
-            console.error("Error fetching data:", error);
+            console.error("Error fetching data: (error @ app.js)", error);
+            navigate("/auth");
           }
         }
+      } else {
+        setAuthenticated(false);
+        setUserRole("");
+        navigate("/auth");
       }
     };
 
     fetchData();
   }, [user]);
 
-  useEffect(() => {
-    if (!authenticated) {
-      navigate("/auth"); // Navigate to the "/auth" route
-    }
+  // useEffect(() => {
+  //   if (!authenticated) {
+  //     navigate("/auth"); // Navigate to the "/auth" route
+  //   }
 
-    if (authenticated) {
-      navigate("/");
-    }
-  }, [authenticated, navigate]);
+  //   // if (authenticated) {
+  //   //   if (window.location.pathname === "/auth") {
+  //   //     navigate("/");
+  //   //     // navigate("/home");
+  //   //   }
+  //   // }
+  // }, [authenticated, navigate]);
 
   return (
     <div>
       {authenticated && (
         <>
           <div>
-            {userRole === "buyer" && <AppNavBar userRole={userRole} />}
+            {userRole === "buyer" && <AppNavBar role={userRole} />}
             {userRole === "seller" && <SellerNavBar role={userRole} />}
-            {/* <AppNavBar role={userRole} /> */}
           </div>
-          {/* <AppNavBar /> */}
-          {/* <h1>My App</h1>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-            <Link to="/contact">Contact</Link>
-          </nav> */}
         </>
       )}
       <Routes>
@@ -74,12 +82,18 @@ const App = () => {
         {!authenticated && <Route path="/auth" element={<SignUp />} />}
 
         {/* Route for authenticated users */}
-        {authenticated && (
+        {/* {authenticated && (
           <Route
             path="/"
             element={userRole === "seller" ? <About /> : <Contact />}
           />
-        )}
+        )} */}
+
+        <Route path="/" element={<Home role={userRole} />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/auth" element={<SignUp />} />
+        <Route path="/stores" element={<Stores role={userRole} />} />
+        <Route path="/products" element={<Products role={userRole} />} />
 
         {/* Default "Not Found" route */}
         <Route path="*" element={<NotFound />} />

@@ -18,9 +18,10 @@ const authReducer = (
       try {
         if (action?.data === null) {
           localStorage.clear();
+        } else {
+          localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
+          localStorage.setItem("token", action?.data.accessToken);
         }
-        localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
-        localStorage.setItem("token", action?.data.accessToken);
       } catch (error) {
         console.log(error);
         debugger;

@@ -1,0 +1,31 @@
+.seller-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* Adjust minmax and column width as needed */
+  gap: 5px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* Adjust minmax and column width as needed */
+  gap: 5px;
+}
+
+/* styles.css (or styles.scss) */
+.view-all-link {
+  margin-top: 10px;
+  font-size: 14px;
+  /* Adjust the font size as needed */
+}
+
+.view-all-link a {
+  color: #007bff;
+  /* Blue color, adjust as needed */
+  text-decoration: none;
+}
+
+.view-all-link a:hover {
+  text-decoration: underline;
+  /* Underline on hover */
+}
