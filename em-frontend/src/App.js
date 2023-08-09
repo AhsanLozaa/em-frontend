@@ -13,6 +13,7 @@ import SellerNavBar from "./Widgets/SellerNavBar/SellerNavBar";
 import Profile from "./components/Profile/profile";
 import Stores from "./components/Stores/stores";
 import Products from "./components/Products/products";
+import StoreDetails from "./components/StoreDetails/StoreDetails";
 
 const App = () => {
   const user = useSelector((state) => state.authReducer.authData);
@@ -93,6 +94,10 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/auth" element={<SignUp />} />
         <Route path="/stores" element={<Stores role={userRole} />} />
+        <Route
+          path="/store/:sellerId"
+          element={<StoreDetails role={userRole} />}
+        />
         <Route path="/products" element={<Products role={userRole} />} />
 
         {/* Default "Not Found" route */}

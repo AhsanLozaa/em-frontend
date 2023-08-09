@@ -22,12 +22,13 @@ const SellerCard = ({ key, seller }) => {
         {/* <li className="list-group-item">Vestibulum at eros</li> */}
       </ul>
       <div className="card-body">
-        <a href="#" className="card-link">
-          Card link
+        <a href={`/store/${seller.id}`} className="card-link">
+          View Store
         </a>
-        <a href="#" className="card-link">
+
+        {/* <a href="#" className="card-link">
           Another link
-        </a>
+        </a> */}
       </div>
     </div>
   );
