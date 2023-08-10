@@ -12,7 +12,7 @@ const StoreDetails = ({ role }) => {
   const [currentStoreProducts, setCurrentStoreProducts] = useState([]);
   const [currentSellerData, setCurrentSellerData] = useState();
   const [page, setPage] = useState(1);
-  const [limit, Limit] = useState(10);
+  const [limit, Limit] = useState(12);
   const [pagination, setPagination] = useState({
     currentPage: 1,
     hasNextPage: true,
@@ -66,7 +66,8 @@ const StoreDetails = ({ role }) => {
   return (
     <>
       <div style={{ padding: "20px" }}>
-        <h1>Thi is store details page</h1>
+        <h3>{currentSellerData?.businessName}</h3>
+        <p>{currentSellerData?.description}</p>
 
         <div className="seller-grid">
           {currentStoreProducts.map((product) => (
@@ -74,6 +75,7 @@ const StoreDetails = ({ role }) => {
           ))}
         </div>
 
+        {/* Pagination Code */}
         <div style={{ marginTop: "20px" }}>
           <nav aria-label="...">
             <ul className="pagination">
@@ -82,7 +84,15 @@ const StoreDetails = ({ role }) => {
                   pagination.hasPreviousPage ? "enabled" : "disabled"
                 }`}
               >
-                <a className="page-link" href="#" tabIndex="-1">
+                <a
+                  className="page-link"
+                  tabIndex="-1"
+                  onClick={async () => {
+                    await fetchMoreProducts({
+                      selectedPage: pagination.currentPage - 1,
+                    });
+                  }}
+                >
                   Previous
                 </a>
               </li>
