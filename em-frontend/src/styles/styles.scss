@@ -1,0 +1,15 @@
+
+// Styles for the seller grid
+.seller-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust minmax and column width as needed */
+    gap: 5px; 
+  }
+  
+
+// Styles for the product grid
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust minmax and column width as needed */
+  gap: 5px; 
+}
